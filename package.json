@@ -1,0 +1,19 @@
+{
+  "name": "rehabready",
+  "version": "1.0.0",
+  "description": "Submitted by: Saharsh Maloo (directory id: smaloo)  \r Group Members: Saharsh Maloo (smaloo), Harshil Agarwal (hagarwa2)  \r App Description: Give users rehab exercises for sports and fitness related injuries  \r YouTube Video Link: TBD  \r APIs: ExerciseDB (https://v2.exercisedb.io/docs#tag/exercises)  \r Contact Email:  smaloo@terpmail.umd.edu",
+  "main": "rehabReady.js",
+  "scripts": {
+    "start": "node rehabReady.js",
+    "dev": "nodemon rehabReady.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
