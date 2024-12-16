@@ -1,4 +1,5 @@
-const express = require('express')
+const express = require('express');
+const axios = require('axios');
 require('dotenv').config();
 const app = express()
 const portNumber = 3000
@@ -104,8 +105,56 @@ app.post('/showResults', async (req, res) => {
     dbResult = await dbResult.toArray();
     const injuries = dbResult[0].injury;
     let images = "";
+    if (injuries.includes('Elbow Tendonitis')) {
+        try {
+            const response = await axios.get('https://exercisedb.p.rapidapi.com/exercises/exercise/0349', {
+                headers: {
+                    'X-RapidAPI-Key': process.env.ExerciseDB,
+                    'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com'
+                }
+            });
+
+            const gifUrl = response.data.gifUrl;
+            images += '<h3>Elbow Tendonitis</h3><br>';
+            images += `<img src="${gifUrl}" alt="Exercise GIF" style="max-width:100%; height:auto;"><br></br>`;
+        } catch (error) {
+            console.error('Error fetching exercise data:', error);
+            images += `<h1>Error fetching exercise GIF</h1><br><br>`;
+        }
+    }
     if (injuries.includes('Ankle Sprain')) {
-        images += "<h1>BANG!!!</h1><br></br>";
+        try {
+            const response = await axios.get('https://exercisedb.p.rapidapi.com/exercises/exercise/0257', {
+                headers: {
+                    'X-RapidAPI-Key': process.env.ExerciseDB,
+                    'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com'
+                }
+            });
+
+            const gifUrl = response.data.gifUrl;
+            images += '<h3>Ankle Sprain</h3><br>';
+            images += `<img src="${gifUrl}" alt="Exercise GIF" style="max-width:100%; height:auto;"><br></br>`;
+        } catch (error) {
+            console.error('Error fetching exercise data:', error);
+            images += `<h1>Error fetching exercise GIF</h1><br><br>`;
+        }
+    }    
+    if (injuries.includes('Rotator Cuff Tendonitis')) {
+        try {
+            const response = await axios.get('https://exercisedb.p.rapidapi.com/exercises/exercise/0216', {
+                headers: {
+                    'X-RapidAPI-Key': process.env.ExerciseDB,
+                    'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com'
+                }
+            });
+
+            const gifUrl = response.data.gifUrl;
+            images += '<h3>Rotator Cuff Tendonitis</h3><br>';
+            images += `<img src="${gifUrl}" alt="Exercise GIF" style="max-width:100%; height:auto;"><br></br>`;
+        } catch (error) {
+            console.error('Error fetching exercise data:', error);
+            images += `<h1>Error fetching exercise GIF</h1><br><br>`;
+        }
     }
     res.render('processResults.ejs', {images});
 });
