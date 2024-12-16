@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insert Applicant</title>
+</head>
+<body>
+    <h1>Insert Applicant</h1>
+    <form action="/insertApplicant" method="post">
+        <label for="name"><strong>Name: </strong></label><input type="text" name="name">
+        <label><br><br>
+            <input type="checkbox" name="injury" value="Elbow Tendonitis">
+            Elbow Tendonitis
+          </label><br>
+      
+          <label>
+            <input type="checkbox" name="injury" value="Ankle Sprain">
+            Ankle Sprain
+          </label><br>
+      
+          <label>
+            <input type="checkbox" name="injury" value="Rotator Cuff Tendonitis">
+            Rotator Cuff Tendonitis
+          </label><br><br>
+      
+          <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
