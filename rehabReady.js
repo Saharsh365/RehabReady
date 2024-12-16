@@ -45,7 +45,7 @@ async function insertApplicant(name, injury) {
 async function getInjuries(name) {
     const myDB = client.db("rehabReady");
     const myColl = myDB.collection("users");
-    const cursor = await myColl.find(name);
+    const cursor = await myColl.find({ name: name });
     return cursor;
 }
 
@@ -85,7 +85,6 @@ app.post('/insertApplicant', async (req, res) => {
     if (!name || !injury) {
       return res.status(400).send("Name and injury fields are required!");
     }
-  
     try {
       await insertApplicant(name, injury);
       res.status(200).redirect('/results');
@@ -101,7 +100,7 @@ app.post('/showResults', async (req, res) => {
       return res.status(400).send("Name is required!");
     }
   
-    let dbResult = await getInjuries();
+    let dbResult = await getInjuries(name);
     dbResult = await dbResult.toArray();
     const injuries = dbResult[0].injury;
     let images = "";
