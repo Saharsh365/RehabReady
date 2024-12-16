@@ -4,12 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Results</title>
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <h1>Results</h1>
+    <h1 id="results">Results</h1>
     <form action="/showResults" method="post">
         <label for="name"><strong>Name: </strong></label><input type="text" name="name"><br><br>
         <button type="submit">Submit</button>
+    </form><br>
+    <form action="/delete" method="post">
+        <button type="submit">Delete All</button>
     </form><br>
     <hr>
     <a href="/">HOME</a>
