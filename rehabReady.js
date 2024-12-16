@@ -13,14 +13,32 @@ const client = new MongoClient(uri);
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true })); 
 
-async function insertApplicant(name, injury) {
+async function ensureUniqueIndex() {
     const myDB = client.db("rehabReady");
     const myColl = myDB.collection("users");
-    const doc = { name: name, injury: injury };
-    const result = await myColl.insertOne(doc);
-    console.log(
-    `A document was inserted with the _id: ${result.insertedId}`,
-    );
+    await myColl.createIndex({ name: 1 }, { unique: true });
+}
+ensureUniqueIndex();
+
+async function insertApplicant(name, injury) {
+    try {
+        const myDB = client.db("rehabReady");
+        const myColl = myDB.collection("users");
+        const doc = { name: name, injury: injury };
+        const result = await myColl.insertOne(doc);
+        console.log(
+        `A document was inserted with the _id: ${result.insertedId}`,
+        );
+    }
+    catch (err) {
+        if (err.code === 11000) {
+            console.error("Duplicate entry detected for name:", name);
+            throw new Error("Name already exists!");
+        } else {
+            console.error("Error inserting document:", err);
+            throw err;
+        }
+    }
 }
 
 async function getInjuries(name) {
@@ -78,15 +96,18 @@ app.post('/insertApplicant', async (req, res) => {
 
 app.post('/showResults', async (req, res) => {
     const { name } = req.body;
-    console.log(name);
     if (!name) {
       return res.status(400).send("Name is required!");
     }
   
     let dbResult = await getInjuries();
-    for await (const doc of dbResult) {
-        console.dir(doc);
-      }
+    dbResult = await dbResult.toArray();
+    const injuries = dbResult[0].injury;
+    let images = "";
+    if (injuries.includes('Ankle Sprain')) {
+        images += "<h1>BANG!!!</h1><br></br>";
+    }
+    res.render('processResults.ejs', {images});
 });
 
 app.post('/delete', async (req, res) => {
